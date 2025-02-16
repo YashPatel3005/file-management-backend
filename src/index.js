@@ -21,6 +21,8 @@ connectToDb();
 app.use(
   cors({
     credentials: true,
+    origin: "*", // Need to add origin url who can access
+    methods: ["GET", "POST", "PATCH", "DELETE"],
   })
 );
 

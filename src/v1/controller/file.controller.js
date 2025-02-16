@@ -17,15 +17,19 @@ export const uploadFile = async (req, res) => {
 
     const socketId = req.headers["socket-id"];
 
-    const folderData = await Folder.findById(folderId).select("path");
+    let folderData;
 
-    if (!folderData) {
-      return res.status(404).json({
-        status: constants.STATUS_CODE.NOT_FOUND,
-        message: "Folder not found",
-        error: true,
-        data: {},
-      });
+    if (folderId) {
+      folderData = await Folder.findById(folderId).select("path");
+
+      if (!folderData) {
+        return res.status(404).json({
+          status: constants.STATUS_CODE.NOT_FOUND,
+          message: "Folder not found",
+          error: true,
+          data: {},
+        });
+      }
     }
 
     if (!req.file) {
@@ -49,7 +53,7 @@ export const uploadFile = async (req, res) => {
     const destinationPath = path.join(
       __dirname,
       "../localstorage",
-      folderData.path.toString()
+      folderData ? folderData.path.toString() : ""
     );
 
     await fs.mkdir(destinationPath, { recursive: true });
@@ -81,7 +85,7 @@ export const uploadFile = async (req, res) => {
         fileName: filename,
         folderId: folderId,
         mimeType: req.file.mimetype,
-        path: folderData.path.toString(),
+        path: folderData ? folderData.path.toString() : "",
       });
 
       io.to(socketId).emit("uploadProgress", { progress: 100, file });
