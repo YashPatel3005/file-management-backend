@@ -22,7 +22,7 @@ app.use(
   cors({
     credentials: true,
     origin: "*", // Need to add origin url who can access
-    methods: ["GET", "POST", "PATCH", "DELETE"],
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   })
 );
 

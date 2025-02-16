@@ -223,12 +223,15 @@ export const getFoldersAndFiles = async (req, res) => {
 
     const totalFiles = await File.countDocuments();
 
+    const files = await File.find({ folderId: null });
+
     return res.status(200).json({
       message: "Folders fetched successfully.",
       status: constants.STATUS_CODE.SUCCESS,
       error: false,
       data: {
         folders,
+        files,
         page,
         limit,
         total,
