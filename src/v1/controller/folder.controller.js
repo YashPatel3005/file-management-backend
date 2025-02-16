@@ -219,11 +219,21 @@ export const getFoldersAndFiles = async (req, res) => {
       .limit(limit)
       .collation({ locale: "en" });
 
+    const totalFolders = await Folder.countDocuments();
+
+    const totalFiles = await File.countDocuments();
+
     return res.status(200).json({
       message: "Folders fetched successfully.",
       status: constants.STATUS_CODE.SUCCESS,
       error: false,
-      data: { folders, page, limit, total },
+      data: {
+        folders,
+        page,
+        limit,
+        total,
+        statistics: { totalFolders, totalFiles },
+      },
     });
   } catch (error) {
     console.log("Error while getting folder list", error);
