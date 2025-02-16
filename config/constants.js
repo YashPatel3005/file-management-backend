@@ -5,7 +5,7 @@ export default {
     NOT_FOUND: "-2",
   },
   PAGE: 1,
-  LIMIT: 10,
+  LIMIT: 100,
   ALLOWED_FILE_TYPES: [
     "image/jpeg",
     "image/png",
